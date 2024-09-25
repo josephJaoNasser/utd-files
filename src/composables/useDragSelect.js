@@ -8,20 +8,26 @@ import {
 } from "overlayscrollbars";
 
 export default function () {
+  // !!! DO NOT REMOVE THESE !!! //
+  const DO_NOT_REMOVE_OR_THE_THING_WILL_BREAK = ref(null);
+  console.log(DO_NOT_REMOVE_OR_THE_THING_WILL_BREAK.value); 
+  // !!! DO NOT REMOVE THESE !!! //
+
   let dragSelectInstance;
   const area = ref(null);
   const explorerId = Math.floor(Math.random() * 2 ** 32);
   const isDraggingRef = ref(false);
   const selectedItems = ref([]);
   const getSelected = () => selectedItems.value;
-  const getSelection = () => dragSelectInstance?.getSelection();
-  const getCount = () => selectedItems.value?.length;
-  const clearSelection = () => dragSelectInstance?.clearSelection(true);
+  const getSelection = () => dragSelectInstance.getSelection();
+  const getCount = () => selectedItems.value.length;
+  const clearSelection = () => dragSelectInstance.clearSelection(true);
   const onSelectCallback = ref();
   // ScrollBar
   const osInstance = ref(null);
   const scrollBar = ref(null);
   const scrollBarContainer = ref(null);
+
   const resizeObserver = ref(null);
 
   function initDragSelect() {
@@ -32,21 +38,21 @@ export default function () {
       selectorClass: "vf-explorer-selector",
     });
 
-    dragSelectInstance?.subscribe(
+    dragSelectInstance.subscribe(
       "DS:start:pre",
       ({ items, event, isDragging }) => {
         if (isDragging) {
-          dragSelectInstance?.Interaction._reset(event);
+          dragSelectInstance.Interaction._reset(event);
         } else {
           isDraggingRef.value = false;
           // Prevent starting selection when start resizing the selectable area from the corner.
           const offsetX = area.value.offsetWidth - event.offsetX;
           const offsetY = area.value.offsetHeight - event.offsetY;
           if (offsetX < 15 && offsetY < 15) {
-            dragSelectInstance?.Interaction._reset(event);
+            dragSelectInstance.Interaction._reset(event);
           }
           if (event.target.classList.contains("os-scrollbar-handle")) {
-            dragSelectInstance?.Interaction._reset(event);
+            dragSelectInstance.Interaction._reset(event);
           }
         }
       }
@@ -62,15 +68,15 @@ export default function () {
 
   const selectAll = () =>
     nextTick(() => {
-      dragSelectInstance?.addSelection(dragSelectInstance?.getSelectables());
+      dragSelectInstance.addSelection(dragSelectInstance.getSelectables());
       updateSelection();
     });
 
   const updateSelection = () => {
     // update selection
     selectedItems.value = dragSelectInstance
-      ?.getSelection()
-      ?.map((el) => JSON.parse(el.dataset.item));
+      .getSelection()
+      .map((el) => JSON.parse(el.dataset.item));
     onSelectCallback.value(selectedItems.value);
   };
 
@@ -81,12 +87,12 @@ export default function () {
 
       clearSelection();
       // reinitialize the selectables
-      dragSelectInstance?.setSettings({
+      dragSelectInstance.setSettings({
         selectables: document.getElementsByClassName("vf-item-" + explorerId),
       });
 
       // add the previously selected items
-      dragSelectInstance?.addSelection(
+      dragSelectInstance.addSelection(
         dragSelectInstance
           .getSelectables()
           .filter((el) =>
@@ -101,7 +107,7 @@ export default function () {
   const onSelect = (callback) => {
     onSelectCallback.value = callback;
 
-    dragSelectInstance?.subscribe("DS:end", ({ items, event, isDragging }) => {
+    dragSelectInstance.subscribe("DS:end", ({ items, event, isDragging }) => {
       selectedItems.value = items.map((el) => JSON.parse(el.dataset.item));
       callback(items.map((el) => JSON.parse(el.dataset.item)));
     });
@@ -135,9 +141,9 @@ export default function () {
 
   onMounted(() => {
     // Super hacky way to get to work the scrollbar element
-    try {
+    if (!!scrollBarContainer.value) {
       OverlayScrollbars(
-        scrollBarContainer?.value,
+        scrollBarContainer.value,
         {
           scrollbars: {
             theme: "vf-theme-dark dark:vf-theme-light",
@@ -163,24 +169,26 @@ export default function () {
           },
         }
       );
-      initDragSelect();
-      // Update scrollbar height when the area is resized.
-      updateScrollbarHeight();
-      resizeObserver.value = new ResizeObserver(updateScrollbarHeight);
-      resizeObserver.value.observe(area.value);
+    }
 
-      // Update scrollbar position when the area is scrolled.
-      area.value.addEventListener("scroll", updateScrollBarPosition);
-      dragSelectInstance?.subscribe(
-        "DS:scroll",
-        ({ isDragging }) => isDragging || updateScrollBarPosition()
-      );
-    } catch (e) {}
+    initDragSelect();
+
+    // Update scrollbar height when the area is resized.
+    updateScrollbarHeight();
+    resizeObserver.value = new ResizeObserver(updateScrollbarHeight);
+    resizeObserver.value.observe(area.value);
+
+    // Update scrollbar position when the area is scrolled.
+    area.value.addEventListener("scroll", updateScrollBarPosition);
+    dragSelectInstance.subscribe(
+      "DS:scroll",
+      ({ isDragging }) => isDragging || updateScrollBarPosition()
+    );
   });
 
   onUnmounted(() => {
     if (dragSelectInstance) {
-      dragSelectInstance?.stop();
+      dragSelectInstance.stop();
     }
     if (resizeObserver.value) {
       resizeObserver.value.disconnect();
@@ -189,7 +197,7 @@ export default function () {
 
   onUpdated(() => {
     if (dragSelectInstance) {
-      dragSelectInstance?.Area.reset();
+      dragSelectInstance.Area.reset();
     }
   });
 

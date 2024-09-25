@@ -8,13 +8,13 @@ export default defineConfig({
   plugins: [
     vue(),
     svgLoader(),
-    copy({
-      targets: [
-        { src: "src/locales/*", dest: "dist/locales" },
-        { src: "src/features.js", dest: "dist" },
-      ],
-      hook: "writeBundle",
-    }),
+    // copy({
+    //   targets: [
+    //     { src: "src/locales/*", dest: "dist/locales" },
+    //     { src: "src/features.js", dest: "dist" },
+    //   ],
+    //   hook: "writeBundle",
+    // }),
   ],
   resolve: {
     alias: {

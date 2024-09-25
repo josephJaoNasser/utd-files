@@ -6,12 +6,11 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-import DragSVG from './icons/drag.svg';
+import DragSVG from "./icons/drag.svg";
 const props = defineProps({
   count: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 </script>

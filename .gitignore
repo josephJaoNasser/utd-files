@@ -3,6 +3,7 @@
 /resources
 /vendor
 /storage
+/dist
 /.idea
 composer.json
 composer.lock
