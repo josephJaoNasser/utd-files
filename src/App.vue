@@ -47,19 +47,13 @@ import { FEATURES, FEATURE_ALL_NAMES } from "../src/features.js";
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
 
 const request = {
-  // ----- CHANGE ME! -----
-  // [REQUIRED] Url for development server endpoint
   baseUrl: "http://localhost:8000/api/files",
-  // ----- CHANGE ME! -----
-
-  // Additional headers & params & body
   headers: {
     "X-ADDITIONAL-HEADER": "yes",
+    Authorization: "Bearer " + import.meta.env.VITE_TEST_TOKEN,
   },
-  params: { additionalParam1: "yes" },
-  body: { additionalBody1: ["yes"] },
-
-  // And/or transform request callback
+  params: { access_token: import.meta.env.VITE_TEST_TOKEN },
+  // body: { additionalBody1: ["yes"] },
   transformRequest: (req) => {
     if (req.method === "get") {
       req.params.vf = "1";
