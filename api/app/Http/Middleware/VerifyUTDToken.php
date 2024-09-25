@@ -16,6 +16,8 @@ class VerifyUTDToken
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request["account_id"]) return $next($request);
+
         $accessToken = $request->bearerToken() ?? $request["access_token"];
         $client = new Client();
         $utdResponse = $client->post("https://www.uptodateconnect.com/api/v1/me/token", [

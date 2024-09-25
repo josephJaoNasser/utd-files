@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_folders', function (Blueprint $table) {
             $table->id();
-            $table->integer('account_id');
+            $table->integer('account_id')->unique();
             $table->uuid('uuid')->unique();
             $table->timestamps();
         });

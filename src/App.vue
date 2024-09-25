@@ -48,21 +48,19 @@ import { FEATURES, FEATURE_ALL_NAMES } from "../src/features.js";
 
 const request = {
   baseUrl: "http://localhost:8000/api/files",
-  headers: {
-    "X-ADDITIONAL-HEADER": "yes",
-    Authorization: "Bearer " + import.meta.env.VITE_TEST_TOKEN,
+  params: {
+    account_id: import.meta.env.VITE_ACCOUNT_ID,
   },
-  params: { access_token: import.meta.env.VITE_TEST_TOKEN },
-  // body: { additionalBody1: ["yes"] },
-  transformRequest: (req) => {
-    if (req.method === "get") {
-      req.params.vf = "1";
-    }
-    return req;
-  },
+  body: { additionalBody1: ["yes"] },
+  // transformRequest: (req) => {
+  //   if (req.method === "get") {
+  //     req.params.vf = "1";
+  //   }
+  //   return req;
+  // },
 
-  // XSRF Token header name
-  xsrfHeaderName: "CSRF-TOKEN",
+  // // XSRF Token header name
+  // xsrfHeaderName: "CSRF-TOKEN",
 };
 const maxFileSize = ref("500MB");
 
