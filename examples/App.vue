@@ -35,7 +35,7 @@
       <h3>Selected Files ({{ selectedFiles?.length }} selected)</h3>
       <ul>
         <li v-for="file in selectedFiles" :key="file.path">
-          {{ file.path }}
+          {{ file }}
         </li>
       </ul>
     </div>
@@ -53,16 +53,7 @@ const request = {
   params: {
     account_id: import.meta.env.VITE_ACCOUNT_ID,
   },
-  body: { additionalBody1: ["yes"] },
-  // transformRequest: (req) => {
-  //   if (req.method === "get") {
-  //     req.params.vf = "1";
-  //   }
-  //   return req;
-  // },
-
-  // // XSRF Token header name
-  // xsrfHeaderName: "CSRF-TOKEN",
+  // body: { additionalBody1: ["yes"] },
 };
 const maxFileSize = ref("500MB");
 

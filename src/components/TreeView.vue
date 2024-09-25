@@ -82,6 +82,7 @@ watch(pinnedFoldersOpened, (value) => setStore('pinned-folders-opened', value));
 
 const removeFavorite = (item) => {
     app.pinnedFolders = app.pinnedFolders.filter(fav => fav.path !== item.path);
+    app.requester.unpinFolder(item);
     app.storage.setStore('pinned-folders', app.pinnedFolders);
 }
 

@@ -225,6 +225,41 @@ export class Requester {
     }
     throw await response.json();
   }
+
+  async getPinnedFolders() {
+    const res = await this.send({
+      method: "get",
+      url: "/pinned-folders",
+    });
+
+    return res.map((data) => JSON.parse(data.folder_data));
+  }
+
+  async pinFolder(folderData) {
+    await this.send({
+      method: "post",
+      url: "/pinned-folders",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        folders: JSON.parse(JSON.stringify(folderData)),
+      },
+    });
+  }
+
+  async unpinFolder(folderData) {
+    await this.send({
+      method: "delete",
+      url: "/pinned-folders",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        path: folderData.path,
+      },
+    });
+  }
 }
 
 /**
