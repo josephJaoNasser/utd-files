@@ -16,9 +16,17 @@ class VerifyUTDToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request["account_id"]) return $next($request);
+        if ($request["account_id"] && $request->method() === "GET") return $next($request);
 
         $accessToken = $request->bearerToken() ?? $request["access_token"];
+
+        if (!$accessToken) {
+            return response([
+                "success" => false,
+                "message" => "UTD token required for POST, PATCH, or DELETE requests"
+            ], 401);
+        }
+
         $client = new Client();
         $utdResponse = $client->post("https://www.uptodateconnect.com/api/v1/me/token", [
             "headers" => [
@@ -30,7 +38,7 @@ class VerifyUTDToken
         $responseData = json_decode($utdResponse->getBody()->getContents(), true);
 
         if (!$responseData['success']) {
-            return response()->json(["success" => false, "message" => "Invalid UTD token"]);
+            return response(["success" => false, "message" => "Invalid UTD token"], 401);
         }
 
         $request["account_id"] = $responseData["payload"]["id"];

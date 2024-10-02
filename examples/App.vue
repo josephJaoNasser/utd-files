@@ -53,6 +53,9 @@ const request = {
   params: {
     account_id: import.meta.env.VITE_ACCOUNT_ID,
   },
+  headers: {
+    authorization: "Bearer " + import.meta.env.VITE_TEST_TOKEN,
+  },
   // body: { additionalBody1: ["yes"] },
 };
 const maxFileSize = ref("500MB");
