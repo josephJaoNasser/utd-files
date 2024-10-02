@@ -21,9 +21,13 @@ class VerifyUTDToken
         $accessToken = $request->bearerToken() ?? $request["access_token"];
 
         if (!$accessToken) {
+            $failMsg = $request->method() !== "GET" ?
+                "UTD token required for POST, PATCH, or DELETE requests." :
+                "Pass the account id for GET requests. Alternatively, you may also pass the access token";
+
             return response([
                 "success" => false,
-                "message" => "UTD token required for POST, PATCH, or DELETE requests"
+                "message" =>  $failMsg
             ], 401);
         }
 

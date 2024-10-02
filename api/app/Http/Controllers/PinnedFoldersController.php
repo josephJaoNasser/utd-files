@@ -3,13 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\PinnedFolders;
+use App\Support\VueFinderClient;
 use Illuminate\Http\Request;
 
 class PinnedFoldersController extends Controller
 {
     public function index(Request $request)
     {
-        $pinnedFolders = PinnedFolders::where('account_id', $request["account_id"])->get();
+        $accountId = $request["account_id"];
+        $vuefinder = VuefinderClient::get($accountId);
+
+        $pinnedFolders = PinnedFolders::where('account_id',  $accountId)->get();
+        $pinnedFolders = $pinnedFolders->filter(function ($folder) use ($vuefinder) {
+            $folderData = json_decode($folder["folder_data"], true);
+            return $vuefinder->directoryExists($folder['path'], $folderData["storage"]);
+        });
 
         return response()->json($pinnedFolders);
     }
