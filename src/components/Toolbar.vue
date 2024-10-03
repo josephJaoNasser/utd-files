@@ -74,7 +74,7 @@
     </div>
 
     <div class="vuefinder__toolbar__controls">
-      <!-- <div
+      <div
         v-if="app.features.includes(FEATURES.FULL_SCREEN)"
         @click="toggleFullScreen"
         class="mx-1.5"
@@ -82,7 +82,7 @@
       >
         <MinimizeSVG v-if="app.fullScreen" />
         <FullscreenSVG v-else />
-      </div> -->
+      </div>
 
       <div
         class="mx-1.5"
@@ -142,7 +142,8 @@ watch(() => app.fullScreen, () => {
     // remove body overflow hidden
     document.querySelector('body').style.overflow = '';
   }
-  setStore('full-screen', app.fullScreen);
+  
+  // setStore('full-screen', app.fullScreen);
   app.emitter.emit('vf-fullscreen-toggle');
 });
 

@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import mitt from "mitt";
 import { buildRequester } from "./utils/ajax.js";
 import { useStorage } from "./composables/useStorage.js";
@@ -65,7 +65,7 @@ export default (props, options) => {
     // view state
     view: storage.getStore("viewport", "grid"),
     // fullscreen state
-    fullScreen: true, // storage.getStore('full-screen', props.fullScreen),
+    fullScreen: props.fullScreen, // storage.getStore('full-screen', props.fullScreen),
     // show tree view
     showTreeView: storage.getStore("show-tree-view", props.showTreeView),
     // pinnedFolders
@@ -101,6 +101,13 @@ export default (props, options) => {
   requester.getPinnedFolders().then((res) => {
     services.pinnedFolders = res;
   });
+
+  watch(
+    () => props.fullScreen,
+    () => {
+      services.fullScreen = props.fullScreen;
+    }
+  );
 
   return services;
 };

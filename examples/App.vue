@@ -19,7 +19,6 @@
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
-      full-screen
       @select="handleSelect"
     />
 
@@ -43,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { FEATURES, FEATURE_ALL_NAMES } from "../src/features.js";
 
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
@@ -58,14 +57,15 @@ const request = {
   },
   // body: { additionalBody1: ["yes"] },
 };
+
 const maxFileSize = ref("500MB");
 
-const features = [
-  ...FEATURE_ALL_NAMES,
-  // Or remove the line above, specify the features want to include
-  // Like...
-  //FEATURES.LANGUAGE,
-];
+const features = computed(() => {
+  const excludedFeatures = [FEATURES.FULL_SCREEN];
+  return [...FEATURE_ALL_NAMES].filter(
+    (feature) => !excludedFeatures.includes(feature)
+  );
+});
 
 const selectedFiles = ref([]);
 
