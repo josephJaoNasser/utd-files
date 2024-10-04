@@ -8,7 +8,7 @@
     <li
       class="vuefinder__context-menu__item"
       v-for="item in filteredItems"
-      :key="item.title"
+      :key="item.title()"
     >
       <template v-if="item.link">
         <a

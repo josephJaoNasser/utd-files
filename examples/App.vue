@@ -19,6 +19,7 @@
       :request="request"
       :max-file-size="maxFileSize"
       :features="features"
+      full-screen
       @select="handleSelect"
     />
 
