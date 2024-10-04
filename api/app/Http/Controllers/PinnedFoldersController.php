@@ -19,7 +19,7 @@ class PinnedFoldersController extends Controller
             return $vuefinder->directoryExists($folder['path'], $folderData["storage"]);
         });
 
-        return response()->json($pinnedFolders);
+        return response()->json($pinnedFolders->values()->toArray());
     }
 
     public function store(Request $request)
