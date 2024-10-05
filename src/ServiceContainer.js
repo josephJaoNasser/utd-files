@@ -22,7 +22,7 @@ export default (props, options) => {
   const supportedLocales = options.i18n;
   const initialLang = props.locale ?? options.locale;
   const adapter = storage.getStore("adapter");
-
+  
   const setFeatures = (features) => {
     if (Array.isArray(features)) {
       return features;

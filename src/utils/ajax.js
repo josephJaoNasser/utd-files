@@ -232,8 +232,6 @@ export class Requester {
       url: "/pinned-folders",
     });
 
-    console.log(res);
-
     return res.map((data) => JSON.parse(data.folder_data));
   }
 

@@ -34,6 +34,7 @@
       </div>
     </div>
     <TreeSubfolderList
+      v-if="showSubFolders"
       :adapter="storage"
       :path="storage + '://'"
       class="vuefinder__treestorageitem__subfolder"

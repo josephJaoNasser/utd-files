@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, inject, watch, computed } from "vue";
 
 import SquarePlusSVG from "./icons/plus.svg";
@@ -25,59 +25,80 @@ import SquareMinusSVG from "./icons/minus.svg";
 import LoadingSVG from "./icons/loading.svg";
 import upsert from "../utils/upsert";
 
-const props = defineProps({
-  adapter: {
-    type: String,
-    required: true,
+export default {
+  props: {
+    adapter: {
+      type: String,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: Boolean,
+      default: false,
+    },
   },
-  path: {
-    type: String,
-    required: true,
+  components: {
+    SquarePlusSVG,
+    SquareMinusSVG,
+    LoadingSVG,
   },
-});
-
-const app = inject("ServiceContainer");
-const { t } = app.i18n;
-const opened = computed({
-  get: () => props.showSubFolders,
-  set: (value) => emit("input", value),
-});
-
-const loading = ref(false);
-
-// loading..
-
-watch(
-  () => opened.value,
-  () => getLoadedFolder()?.folders.length || fetchSubFolders()
-);
-
-function toggleIndicator() {
-  return (opened.value = !opened.value);
-}
-
-function getLoadedFolder() {
-  return app.treeViewData.find((e) => e.path === props.path);
-}
-
-const fetchSubFolders = () => {
-  loading.value = true;
-  app.requester
-    .send({
-      url: "",
-      method: "get",
-      params: {
-        q: "subfolders",
-        adapter: props.adapter,
-        path: props.path,
-      },
-    })
-    .then((data) => {
-      upsert(app.treeViewData, { path: props.path, ...data });
-    })
-    .catch((e) => {})
-    .finally(() => {
-      loading.value = false;
+  setup(props) {
+    const app = inject("ServiceContainer");
+    const { t } = app.i18n;
+    const opened = computed({
+      get: () => props.value,
+      set: (value) => emit("input", value),
     });
+    
+    const loading = ref(false);
+
+    watch(
+      () => opened.value,
+      () => {
+        if (!getLoadedFolder()?.folders.length) {
+          fetchSubFolders();
+        }
+      }
+    );
+
+    const toggleIndicator = () => {
+      opened.value = !opened.value;
+    };
+
+    const getLoadedFolder = () => {
+      return app.treeViewData.find((e) => e.path === props.path);
+    };
+
+    const fetchSubFolders = () => {
+      loading.value = true;
+      app.requester
+        .send({
+          url: "",
+          method: "get",
+          params: {
+            q: "subfolders",
+            adapter: props.adapter,
+            path: props.path,
+          },
+        })
+        .then((data) => {
+          upsert(app.treeViewData, { path: props.path, ...data });
+        })
+        .catch((e) => {})
+        .finally(() => {
+          loading.value = false;
+        });
+    };
+
+    return {
+      opened,
+      loading,
+      getLoadedFolder,
+      toggleIndicator,
+    };
+  },
 };
 </script>
