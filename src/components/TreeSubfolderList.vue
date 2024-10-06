@@ -6,10 +6,7 @@
       class="vuefinder__treesubfolderlist__item"
     >
       <div class="vuefinder__treesubfolderlist__item-content">
-        <div
-          class="vuefinder__treesubfolderlist__item-toggle"
-          @click="onSubfolderShow(item.path)"
-        >
+        <div class="vuefinder__treesubfolderlist__item-toggle">
           <FolderLoaderIndicator
             :adapter="adapter"
             :path="item.path"
@@ -52,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed, inject, onMounted, ref } from "vue";
+import { computed, inject, onMounted, ref, reactive } from "vue";
 
 import FolderSVG from "./icons/folder.svg";
 import OpenFolderSVG from "./icons/open_folder.svg";
@@ -61,7 +58,7 @@ import { OverlayScrollbars } from "overlayscrollbars";
 
 const app = inject("ServiceContainer");
 
-const showSubFolders = ref({});
+const showSubFolders = reactive({});
 
 const props = defineProps({
   adapter: {
@@ -85,10 +82,6 @@ onMounted(() => {
     });
   }
 });
-
-const onSubfolderShow = (path) => {
-  showSubFolders.value[path] = !(showSubFolders.value[path] ?? false);
-};
 
 const treeSubFolders = computed(() => {
   return app.treeViewData.find((e) => e.path === props.path)?.folders || [];

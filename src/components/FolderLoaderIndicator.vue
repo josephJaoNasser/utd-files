@@ -1,5 +1,5 @@
 <template>
-  <div class="vuefinder__folder-loader-indicator">
+  <div class="vuefinder__folder-loader-indicator" @click="opened = !opened">
     <LoadingSVG
       v-if="loading"
       class="vuefinder__folder-loader-indicator--loading"
@@ -49,7 +49,7 @@ export default {
     prop: "value",
     event: "input",
   },
-  setup(props) {
+  setup(props, { emit }) {
     const app = inject("ServiceContainer");
     const { t } = app.i18n;
     const opened = computed({
