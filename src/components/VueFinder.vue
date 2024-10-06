@@ -119,7 +119,8 @@ const props = defineProps({
 
 // the object is passed to all components as props
 const { proxy } = getCurrentInstance();
-const app = ServiceContainer(props, proxy.$VueFinderOptions);
+const options = inject("VueFinderOptions") ?? proxy.$VueFinderOptions;
+const app = ServiceContainer(props, options);
 provide("ServiceContainer", app);
 const { setStore } = app.storage;
 
