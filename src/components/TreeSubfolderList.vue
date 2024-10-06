@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { computed, inject, onMounted, ref, reactive } from "vue";
+import { computed, inject, onMounted, ref } from "vue";
 
 import FolderSVG from "./icons/folder.svg";
 import OpenFolderSVG from "./icons/open_folder.svg";
@@ -61,7 +61,7 @@ import { OverlayScrollbars } from "overlayscrollbars";
 
 const app = inject("ServiceContainer");
 
-const showSubFolders = reactive({});
+const showSubFolders = ref({});
 
 const props = defineProps({
   adapter: {
@@ -87,9 +87,7 @@ onMounted(() => {
 });
 
 const onSubfolderShow = (path) => {
-  if (!!!showSubFolders[path]) showSubFolders[path] = false;
-
-  showSubFolders[path] = !showSubFolders[path]
+  showSubFolders.value[path] = !(showSubFolders.value[path] ?? false);
 };
 
 const treeSubFolders = computed(() => {

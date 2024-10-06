@@ -45,6 +45,10 @@ export default {
     SquareMinusSVG,
     LoadingSVG,
   },
+  model: {
+    prop: "value",
+    event: "input",
+  },
   setup(props) {
     const app = inject("ServiceContainer");
     const { t } = app.i18n;
@@ -52,7 +56,7 @@ export default {
       get: () => props.value,
       set: (value) => emit("input", value),
     });
-    
+
     const loading = ref(false);
 
     watch(
@@ -87,7 +91,9 @@ export default {
         .then((data) => {
           upsert(app.treeViewData, { path: props.path, ...data });
         })
-        .catch((e) => {})
+        .catch((e) => {
+          console.log(e);
+        })
         .finally(() => {
           loading.value = false;
         });
