@@ -45,7 +45,9 @@ class VerifyUTDToken
             return response(["success" => false, "message" => "Invalid UTD token"], 401);
         }
 
-        $request["account_id"] = $responseData["payload"]["id"];
+        if (!isset($request["account_id"]) && $responseData["payload"]["id"]) {
+            $request["account_id"] = $responseData["payload"]["id"];
+        }
 
         return $next($request);
     }
