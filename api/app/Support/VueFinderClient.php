@@ -6,6 +6,8 @@ use App\Models\UserFolders;
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter as AwsS3V3AwsS3V3Adapter;
 use Illuminate\Support\Str;
 use Aws\S3\S3Client;
+use Exception;
+use GuzzleHttp\Client;
 
 class VueFinderClient
 {
@@ -14,10 +16,24 @@ class VueFinderClient
     $userFolder = UserFolders::firstWhere("account_id", $accountId);
 
     if (!$userFolder) {
-      $userFolder = UserFolders::create([
+      $folderUuid = Str::uuid();
+      $payload = [
         "account_id" => $accountId,
-        "uuid" => Str::uuid()
-      ]);
+        "uuid" => $folderUuid
+      ];
+      
+      $userFolder = UserFolders::create($payload);
+
+      if (env("FOLDER_CREATED_WEBHOOK")) {
+        try {
+          $client = new Client();
+          $client->post(env("FOLDER_CREATED_WEBHOOK"), [
+            "json" =>  $payload
+          ]);
+        } catch (Exception $e) {
+          // handle error here
+        }
+      }
     }
 
     $folderUuid = $userFolder["uuid"];
