@@ -23,5 +23,6 @@ const variantClasses = {
   primary: "vf-btn-primary",
   secondary: "vf-btn-secondary",
   danger: "vf-btn-danger",
+  success: "vf-btn-success",
 };
 </script>
