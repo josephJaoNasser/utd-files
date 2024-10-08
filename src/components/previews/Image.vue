@@ -10,7 +10,7 @@
       </h3>
       <div class="vuefinder__image-preview__actions">
         <VFButton
-          @click="crop"
+          @click.native="crop"
           class="vf-btn-sm"
           variant="success"
           :loading="isCropping"

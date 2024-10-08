@@ -10,7 +10,7 @@
       </div>
       <div class="vuefinder__text-preview__actions">
         <VFButton
-          @click="save"
+          @click.native="save"
           class="vf-btn-sm"
           variant="success"
           :loading="isSaving"
