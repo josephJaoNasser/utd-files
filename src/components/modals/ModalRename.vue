@@ -54,7 +54,7 @@
     </div>
 
     <template v-slot:buttons>
-      <VFButton type="button" @click="rename" :loading="isRenaming">
+      <VFButton type="button" @click.native="rename" :loading="isRenaming">
         {{ t("Rename") }}
       </VFButton>
       <button

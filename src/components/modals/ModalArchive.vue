@@ -59,7 +59,7 @@
     </div>
 
     <template v-slot:buttons>
-      <VFButton type="button" @click="archive" :loading="isArchiving">
+      <VFButton type="button" @click.native="archive" :loading="isArchiving">
         {{ t("Archive") }}
       </VFButton>
       <!-- <button type="button" @click="archive" class="vf-btn vf-btn-primary">{{ t('Archive') }}</button> -->

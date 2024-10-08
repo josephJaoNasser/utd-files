@@ -55,7 +55,7 @@
       <VFButton
         type="button"
         variant="danger"
-        @click="remove"
+        @click.native="remove"
         :loading="isDeleting"
       >
         {{ t("Yes, Delete!") }}

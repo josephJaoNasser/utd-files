@@ -72,7 +72,7 @@
     </div>
 
     <template v-slot:buttons>
-      <VFButton type="button" @click="move" :loading="isMoving">
+      <VFButton type="button" @click.native="move" :loading="isMoving">
         {{ t("Yes, Move!") }}
       </VFButton>
       <button

@@ -22,7 +22,7 @@
     </div>
 
     <template v-slot:buttons>
-      <VFButton type="button" @click="createFolder" :loading="isCreating">
+      <VFButton type="button" @click.native="createFolder" :loading="isCreating">
         {{ t("Create") }}
       </VFButton>
       <button

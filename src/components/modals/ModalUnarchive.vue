@@ -53,7 +53,7 @@
     </div>
 
     <template v-slot:buttons>
-      <VFButton type="button" @click="unarchive" :loading="isUnarchiving">
+      <VFButton type="button" @click.native="unarchive" :loading="isUnarchiving">
         {{ t("Unarchive") }}
       </VFButton>
       <button
