@@ -53,6 +53,7 @@ const message = ref("");
 const isCreating = ref(false);
 
 const createFile = () => {
+  isCreating.value = true;
   if (name.value !== "") {
     app.emitter.emit("vf-fetch", {
       params: {
