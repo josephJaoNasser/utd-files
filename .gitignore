@@ -5,6 +5,7 @@
 /storage
 /dist
 /.idea
+/api
 composer.json
 composer.lock
 mix-manifest.json
