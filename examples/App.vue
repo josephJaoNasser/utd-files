@@ -48,7 +48,7 @@ import { FEATURES, FEATURE_ALL_NAMES } from "../src/features.js";
 /** @type {import('../src/utils/ajax.js').RequestConfig} */
 
 const request = {
-  baseUrl: "http://localhost:8000/api/files",
+  baseUrl: "https://files.uptodateconnect.com/api/files",
   params: {
     account_id: import.meta.env.VITE_ACCOUNT_ID,
   },
