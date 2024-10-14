@@ -260,6 +260,42 @@ export class Requester {
       },
     });
   }
+
+  async getLockedFile(path) {
+    const res = await this.send({
+      method: "get",
+      url: "/lock/" + encodeURIComponent(path),
+    });
+
+    return JSON.parse(res);
+  }
+
+  async lockFiles(paths = [], password) {
+    await this.send({
+      method: "post",
+      url: "/lock",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        paths,
+        password,
+      },
+    });
+  }
+
+  async unlockFiles(paths = []) {
+    await this.send({
+      method: "post",
+      url: "/unlock",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: {
+        paths,
+      },
+    });
+  }
 }
 
 /**

@@ -12,6 +12,7 @@ export const FEATURES = {
     FULL_SCREEN: 'fullscreen',
     DOWNLOAD: 'download',
     LANGUAGE: 'language',
+    LOCK: 'lock',
 }
 
 export const FEATURE_ALL_NAMES = Object.values(FEATURES)
